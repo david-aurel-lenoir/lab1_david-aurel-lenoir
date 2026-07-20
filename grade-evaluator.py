@@ -39,3 +39,42 @@ def validate_scores(data):
         if not (0 <= row['score'] <= 100):
             errors.append(f"  - '{row['assignment']}': score {row['score']} is outside 0-100")
     return errors
+
+def validate_weights(data):
+    """b) Total weights = 100, Formative = 60, Summative = 40."""
+    errors = []
+    total = sum(r['weight'] for r in data)
+    formative = sum(r['weight'] for r in data if r['group'].strip().lower() == 'formative')
+    summative = sum(r['weight'] for r in data if r['group'].strip().lower() == 'summative')
+
+    if round(total, 2) != 100:
+        errors.append(f"  - Total weight is {total}, expected 100")
+    if round(formative, 2) != 60:
+        errors.append(f"  - Formative weight is {formative}, expected 60")
+    if round(summative, 2) != 40:
+        errors.append(f"  - Summative weight is {summative}, expected 40")
+
+    return errors, total, formative, summative
+
+
+def calculate_group_contribution(data, group_name):
+    """
+    Weighted contribution of one group toward the final grade.
+    contribution = sum(score/100 * weight)
+    """
+    return sum((r['score'] / 100) * r['weight']
+               for r in data if r['group'].strip().lower() == group_name)
+
+
+def find_resubmissions(data):
+    """
+    e) Failed formative assignments (< 50%), keeping only those
+    tied at the highest weight.
+    """
+    failed = [r for r in data
+              if r['group'].strip().lower() == 'formative' and r['score'] < 50]
+    if not failed:
+        return []
+    max_weight = max(r['weight'] for r in failed)
+    return [r for r in failed if r['weight'] == max_weight]
+
