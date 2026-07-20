@@ -75,7 +75,6 @@ You can check with `ls archive/` and `cat organizer.log`.
 ## Everything together
 
 ```bash
-cp grades.sample.csv grades.csv
 python3 grade-evaluator.py
 ./organizer.sh
 cat organizer.log
