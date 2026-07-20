@@ -14,7 +14,7 @@ def load_csv_data():
         print(f"Error: The file '{filename}' was not found.")
         sys.exit(1)
 
-        assignments = []
+    assignments = []
 
     try:
         with open(filename, mode='r', encoding='utf-8') as file:
@@ -39,6 +39,7 @@ def validate_scores(data):
         if not (0 <= row['score'] <= 100):
             errors.append(f"  - '{row['assignment']}': score {row['score']} is outside 0-100")
     return errors
+
 
 def validate_weights(data):
     """b) Total weights = 100, Formative = 60, Summative = 40."""
@@ -77,6 +78,7 @@ def find_resubmissions(data):
         return []
     max_weight = max(r['weight'] for r in failed)
     return [r for r in failed if r['weight'] == max_weight]
+
 
 def evaluate_grades(data):
     """
