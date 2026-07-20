@@ -1,23 +1,36 @@
 #!/bin/bash
-# organizer.sh - Archives grades.csv with a timestamp and logs the action.
+# organizer.sh
+# This script archives my grades.csv file
 
-ARCHIVE_DIR="archive"
-SOURCE_FILE="grades.csv"
-LOG_FILE="organizer.log"
-
-# 1. Archive Directory: create it if it doesn't exist
-if [ ! -d "$ARCHIVE_DIR" ]; then
-    echo "Archive directory not found. Creating '$ARCHIVE_DIR'..."
-    mkdir -p "$ARCHIVE_DIR"
+# check if the archive folder exists
+if [ -d "archive" ]
+then
+    echo "archive folder already exists"
 else
-    echo "Archive directory '$ARCHIVE_DIR' already exists."
+    echo "archive folder not found, creating it"
+    mkdir archive
 fi
 
-# 2. Timestamp Generation (format: YYYYMMDD-HHMMSS)
-TIMESTAMP=$(date +"%Y%m%d-%H%M%S")
+# get the current date and time
+timestamp=$(date +%Y%m%d-%H%M%S)
+echo "timestamp is $timestamp"
 
-# Guard: nothing to archive
-if [ ! -f "$SOURCE_FILE" ]; then
-    echo "Error: '$SOURCE_FILE' does not exist in the current directory."
+# check if grades.csv is there
+if [ ! -f "grades.csv" ]
+then
+    echo "grades.csv not found!"
     exit 1
 fi
+
+# make the new name and move the file
+newname="grades_$timestamp.csv"
+mv grades.csv archive/$newname
+echo "moved grades.csv to archive/$newname"
+
+# create a new empty grades.csv
+touch grades.csv
+echo "created a new empty grades.csv"
+
+# write to the log file
+echo "$timestamp - grades.csv archived as $newname" >> organizer.log
+echo "log updated"
