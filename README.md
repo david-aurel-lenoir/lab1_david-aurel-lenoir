@@ -8,21 +8,17 @@ student passed, and a Bash script that archives the CSV file.
 
 - `grade-evaluator.py` - the Python program
 - `organizer.sh` - the Bash script
-- `grades.sample.csv` - example data for testing
 
 ## What you need
 
-Python 3 and a terminal that can run Bash (Linux, Mac, or Git Bash / WSL on
+Python 3 and a terminal that can run Bash (Linux, or Git Bash / WSL on
 Windows). I only used `csv`, `sys` and `os`, which come with Python.
 
 ## Making the grades.csv file
 
-`grades.csv` is not in this repository because the script deletes and recreates
-it. Copy the sample instead:
+`grades.csv` is not in this repository because its in the gitignore. but take note each time to run the `organizer.sh` the grades.csv content is removed. so y'll have to copy it back inside
 
-```bash
-cp grades.sample.csv grades.csv
-```
+grades.csv
 
 It has to look like this:
 assignment,group,score,weight
